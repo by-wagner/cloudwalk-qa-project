@@ -1,0 +1,15 @@
+{
+  "name": "cloudwalk-qa-project",
+  "version": "1.0.0",
+  "description": "cloudwalk-qa-project is a project for automated testing of QR code functionality on the InfinitePay app website, using Cypress and GitHub Actions for E2E tests and security checks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.7.1"
+  }
+}
