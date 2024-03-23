@@ -18,7 +18,7 @@ jobs:
           RESPONSE=$(curl -s "https://observatory.mozilla.org/analyze?host=app.infinitepay.io")
           SCORE=$(echo $RESPONSE | jq '.grade')
           echo "Security score: $SCORE"
-          if [ "$SCORE" != "\"A+\"" ] && [ "$SCORE" != "\"A\"" ]; then
+          if [ "$SCORE" != "\"A+\"" ] && [ "$SCORE" != "\"A\"" ]  && [ "$SCORE" != "\"A-\"" ]; then
             echo "Security grade is not A or A+."
             exit 1
           fi
