@@ -8,17 +8,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Install jq
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
 
-      - name: Checking website security with Mozilla Observatory
+      - name: Initiate Website Security Analysis
         run: |
-          RESPONSE=$(curl -s "https://observatory.mozilla.org/analyze?host=app.infinitepay.io")
-          SCORE=$(echo $RESPONSE | jq '.grade')
+          RESPONSE=$(curl -s -X POST "https://http-observatory.security.mozilla.org/api/v1/analyze?host=app.infinitepay.io")
+          echo "$RESPONSE"
+          SCAN_ID=$(echo $RESPONSE | jq '.scan_id')
+          echo "Initiated analysis with scan ID: $SCAN_ID"
+
+      - name: Retrieve and Check Security Grade
+        run: |
+          sleep 60
+          RESPONSE=$(curl -s "https://http-observatory.security.mozilla.org/api/v1/analyze?host=app.infinitepay.io")
+          echo "$RESPONSE"
+          SCORE=$(echo $RESPONSE | jq -r '.grade')
           echo "Security score: $SCORE"
-          if [ "$SCORE" != "\"A+\"" ] && [ "$SCORE" != "\"A\"" ]  && [ "$SCORE" != "\"A-\"" ]; then
-            echo "Security grade is not A or A+."
+          if [[ "$SCORE" != "A+" && "$SCORE" != "A" && "$SCORE" != "A-" ]]; then
+            echo "Security grade is not A+, A, or A-."
             exit 1
           fi
