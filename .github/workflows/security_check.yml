@@ -1,0 +1,24 @@
+name: Security Check
+
+on: [push]
+
+jobs:
+  check-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Checking website security with Mozilla Observatory
+        run: |
+          RESPONSE=$(curl -s "https://observatory.mozilla.org/analyze?host=app.infinitepay.io")
+          SCORE=$(echo $RESPONSE | jq '.grade')
+          echo "Security score: $SCORE"
+          if [ "$SCORE" != "\"A+\"" ] && [ "$SCORE" != "\"A\"" ]; then
+            echo "Security grade is not A or A+."
+            exit 1
+          fi
