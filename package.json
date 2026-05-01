@@ -6,11 +6,11 @@
   "scripts": {
     "test": "cypress run",
     "open": "cypress open"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^13.7.1"
+    "cypress": "^15.14.2"
   }
 }
